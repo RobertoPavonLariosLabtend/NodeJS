@@ -1,5 +1,5 @@
 import express from 'express'
-import { loginForm, registerForm, resetPasswordForm, register  } from '../controllers/userController.js';
+import { loginForm, registerForm, resetPasswordForm, register, confirmAccount  } from '../controllers/userController.js';
 
 const router = express.Router();
 
@@ -13,6 +13,9 @@ router.route( '/register' )
 
 router.route( '/reset_password' )
     .get( resetPasswordForm )
+
+router.route( '/confirm_account/:token' )
+    .get( confirmAccount )
 
 
 

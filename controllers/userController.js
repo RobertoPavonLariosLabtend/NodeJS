@@ -1,6 +1,10 @@
 import { check, validationResult } from 'express-validator'
 import User from '../models/user.js'
 import { generateId } from '../helpers/tokens.js'
+import { emailRegister } from '../helpers/emails.js'
+
+
+
 const loginForm = (req, res) => {
     res.render( 'auth/login', {
         page: 'Iniciar sesión'
@@ -56,13 +60,19 @@ const register = async (req, res) =>{
             }
         } )
     }
-    console.log( userExists )
+
     const user = await User.create({
         username,
         email,
         password,
         token: generateId(),
 
+    })
+
+    emailRegister({
+        username: user.username,
+        email: user.email,
+        token: user.token
     })
     
     //mostrar mensaje de confirmacion
@@ -72,9 +82,22 @@ const register = async (req, res) =>{
     } )
 }
 
+const confirmAccount = (req, res, netx) => {
+
+    const token = req.params
+    console.log( token )
+
+    //verificar si el token es valido
+
+    //confirmar la cuenta
+
+    netx()
+}
+
 export {
     loginForm,
     registerForm,
     resetPasswordForm,
+    confirmAccount,
     register
 }
