@@ -1,15 +1,23 @@
 import express from 'express'
 import userRoutes from './routes/userRoutes.js'
 import db from './config/db.js'
+import cookieParser from 'cookie-parser'
 //crear aplicacion
 
 const app = express()
 app.use( express.json() )
+
 //habilitar lecuta datos formularios
 app.use( express.urlencoded({ extended: true }) );
 
-//conexion base de datos
 
+//habilitar cookie parser
+app.use( cookieParser() )
+
+//habilitar csrf
+//app.use( csrf({ cookie: true }) )
+
+//conexion base de datos
 try{
     await db.authenticate()
     db.sync()
@@ -28,7 +36,7 @@ app.set( 'view engine', 'pug' )
 app.set( 'views', './views' )
 
 
-//Carpeta publica
+//Carpeta publicars
 
 app.use( express.static( 'public' ) )
 
