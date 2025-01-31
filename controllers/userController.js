@@ -65,7 +65,7 @@ const loginUser = async (req, res) => {
     return res.cookie('_token', token, {
         httpOlny: true,
         secure: true
-    }).redirect('properties')
+    }).redirect('/my_properties')
 
 }
 const registerForm = (req, res) => {

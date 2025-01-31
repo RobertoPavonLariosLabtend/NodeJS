@@ -1,5 +1,6 @@
 import express from 'express'
 import userRoutes from './routes/userRoutes.js'
+import propertiesRoutes from './routes/propertiesRoutes.js'
 import db from './config/db.js'
 import cookieParser from 'cookie-parser'
 //crear aplicacion
@@ -30,6 +31,7 @@ try{
 
 app.use( '/', userRoutes )
 app.use( '/auth', userRoutes )
+app.use( '/', propertiesRoutes )
 
 //habilitar pug
 app.set( 'view engine', 'pug' )
