@@ -9,3 +9,25 @@ block content
         h2.text-center.text-2xl.font-extrabold= page
 
         a(href="/create" class="rounded py-2 bg-indigo-600 text-center uppercase my-5 inline-block w-full sm:w-auto hover:bg-indigo-700 text-white px-10") Publicar propiedad
+
+        //- pre= JSON.stringify( properties, undefinded, 2 )
+
+        if properties.length 
+            div(class="bg-white shadow rounded-lg")
+                ul(class="divide-y divide-gray-200")
+                    each property in properties 
+                         li 
+                            div(class="p-6 w-full flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-8 gap-4"  )
+                                div(class="sm:w-1/4 md:w:1/6") 
+                                    img(src=`uploads/${property.img}`, alt="")
+                                div(class="sm:w-2/4 md:w:3/6 lg:w-4/6") 
+                                    a(class="block text-2xl font-extrabold text-indigo-600 truncate" href="#")=property.title
+
+                                    p( class="text-sm text-black font-bold" )=property.category.name
+                                    p( class="text-sm text-black font-bold" )= property.price.name
+                                div(class="sm:w-1/4 md:w:2/6 lg:w-1/6")
+                                    form(action="#")
+                                        input(type="submit" class=`px-2 py-2 md:py-1 text-xs leading-5 font-semibold
+                                        rounded cursor-pointer ${property.isPublished ? 'bg-green-100 text-green-800' : 'g-red-100 text-red-800'} ` value=`${property.isPublished ? 'Publicado' : 'No Publicado'}`)
+
+                                    a(href="#" class="px-2 py-2 md:py-1 text-xs leading-5 font-semibold rounded cursor-pointerbg-indigo-300 text-indigo-800")  Editar

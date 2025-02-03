@@ -1,10 +1,23 @@
 import { validationResult } from "express-validator"
 import {Price, Category, Property } from '../models/index.js'
 
-const admin = (req, res) => {
+const admin = async (req, res) => {
+
+    const {  id }  = req.user
+
+    const properties = await  Property.findAll({
+        where: {
+            userId: id
+        },
+        include: [
+            { model: Category, as: 'category' },
+            { model: Price, as: 'price' },
+        ]
+    })
+
     res.render( 'properties/admin' ,{
         page: 'Mis propiedades',
-        showNav: true
+        properties: properties
     })
 }
 const createProperty = async (req, res) => {
@@ -56,8 +69,8 @@ const saveProperty = async (req, res) => {
     const newProperty = await Property.create({
         title,
         description,
-        category,
-        price,
+        categoryId,
+        priceId,
         rooms,
         parking,
         wc,
@@ -94,8 +107,30 @@ const addImage = async( req, res ) => {
 }
 
 
-const updatePropertyImg = async ( req, res ) => {
-    console.log('updatePropertyImg')
+const updatePropertyImg = async ( req, res, next ) => {
+    const { id } = req.params
+
+    const property = await Property.findByPk(id)
+    
+    if(!property){
+        return res.redirect( '/my_properties' )
+    }
+
+    if(property.isPublished){
+        return res.redirect( '/my_properties' )
+    }
+    if( req.user.id.toString() !== property.userId.toString() ){
+        return res.redirect( '/my_properties' )
+    }
+    try{
+        console.log(req.file)
+        property.img = req.file.filename
+        property.isPublished  = 1
+        await property.save()
+    }catch( error ){
+        console.log( error )
+    }
+    next()
 }
 
 export{

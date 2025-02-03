@@ -1,3 +1,4 @@
+
 import { Dropzone } from 'dropzone'
 
 Dropzone.options.addImg = {
@@ -7,5 +8,20 @@ Dropzone.options.addImg = {
     autoProcessQueue: false,
     addRemoveLinks: true,
     dictRemoveFile: 'Borrar archivo',
-    dictMaxFilesExceeded: 'No puedes subir más de una foto por propiedad'
+    dictMaxFilesExceeded: 'No puedes subir más de una foto por propiedad',
+    paramName: 'image1',
+    init: function() {
+        const dropzone = this
+        const postImg = document.querySelector('#postImg')
+
+        postImg.addEventListener( 'click', function(){
+            dropzone.processQueue()
+        })
+
+        dropzone.on(  'queuecomplete', function(){
+            if( dropzone.getActiveFiles().length == 0 ){
+                window.location.href = '/my_properties'
+            }
+        })
+    }
 }
