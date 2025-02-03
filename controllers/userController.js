@@ -1,5 +1,5 @@
 import { check, validationResult } from 'express-validator'
-import User from '../models/user.js'
+import User from '../models/User.js'
 import { generateId, generateJWT } from '../helpers/tokens.js'
 import { sendEmailRegister, sendEmailPasswordReset  } from '../helpers/emails.js'
 import bcrypt from 'bcrypt'
@@ -261,7 +261,7 @@ const newPassword = async (req, res) => {
     const user = await User.findOne({ where: {token} })
     
     //Identificar la nueva contraseña
-    const salt = await bcrypt.gnSalt( 10 )
+    const salt = await bcrypt.genSalt( 10 )
     user.password = await bcrypt.hash( password, salt )
     user.token = null
     

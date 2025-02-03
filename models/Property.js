@@ -5,7 +5,8 @@ const Property = db.define( 'properties', {
     id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
-        allowNull: false
+        allowNull: false,
+        primaryKey: true
     },
     title: {
         type: DataTypes.STRING(100),

@@ -1,6 +1,8 @@
 import { exit } from 'node:process'
 import categories from "./categories.js";
-import Category from "../models/Category.js";
+import prices from "./prices.js";
+import users from "./users.js";
+import { Price, Category, User } from "../models/index.js"
 import db from '../config/db.js'
 
 const importData = async () => {
@@ -12,7 +14,13 @@ const importData = async () => {
         await db.sync({ force: true })
         console.log("Tablas sincronizadas correctamente");
         //insertar datos
-        await Category.bulkCreate( categories )
+
+        await Promise.all([
+            Category.bulkCreate( categories ),
+            Price.bulkCreate( prices ),
+            User.bulkCreate( users ),
+        ])
+
         console.log("✅ Datos insertados correctamente.");
         exit(0)
 
@@ -23,6 +31,19 @@ const importData = async () => {
     }
 }
 
-if( process.argv[2] == " -i" ){
+const dropDBData = async () => {
+    try{
+        await db.sync({ force: true })
+        exit(0)
+    }catch( error ){
+        console.log( error )
+        exit(1)
+    }
+}
+
+if( process.argv[2] === "-i" ){
     importData()
+}
+if( process.argv[2] === "-e" ){
+    dropDBData()
 }

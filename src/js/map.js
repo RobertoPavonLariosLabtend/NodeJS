@@ -1,6 +1,6 @@
 (function() {
-    const lat = 20.67444163271174;
-    const lng = -103.38739216304566;
+    const lat = document.querySelector('#lat').value || 20.67444163271174;
+    const lng =  document.querySelector('#lng').value  || -103.38739216304566;
     const map = L.map('map').setView([lat, lng ], 16);
     let marker;
 
@@ -31,9 +31,9 @@
 
         //Llenar campos
         document.querySelector( '.street' ).textContent = result?.address?.Address ?? ''
-        document.querySelector( '#street' ).textContent = result?.address?.Address ?? ''
-        document.querySelector( '#lat' ).textContent = result?.latlng?.lat ?? ''
-        document.querySelector( '#lng' ).textContent = result?.latlng?.lng ?? ''
+        document.querySelector( '#street' ).value = result?.address?.Address ?? ''
+        document.querySelector( '#lat' ).value = result?.latlng?.lat ?? ''
+        document.querySelector( '#lng' ).value = result?.latlng?.lng ?? ''
         })
     })
 
