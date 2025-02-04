@@ -1,8 +1,9 @@
 import express from 'express'
 import { body } from 'express-validator'
-import { admin, createProperty, saveProperty, addImage, updatePropertyImg, editProperty, saveEditProperty, deleteProperty, showProperty } from '../controllers/propertiesController.js'
+import { admin, createProperty, saveProperty, addImage, updatePropertyImg, editProperty, saveEditProperty, deleteProperty, showProperty, sendMessage, showMessages } from '../controllers/propertiesController.js'
 import protectRouting from '../middleware/protectrouting.js'
 import upload from '../middleware/uploadFile.js'
+import identifyUser from '../middleware/identifyUser.js'
 
 const router = express.Router()
 
@@ -57,7 +58,19 @@ router.post( '/delete/:id', protectRouting, deleteProperty )
 //area publica
 
 router.route( '/property/:id' )
-    .get( showProperty )
+    .get(  identifyUser, showProperty )
+        .post( 
+            identifyUser,
+            body('message').isLength({min:10}).withMessage( 'El mensaje no puede ir vacio' ),
+            sendMessage
+        )
+
+    
+router.route( '/messages/:id')
+    .get(
+        identifyUser,
+        showMessages
+    )
 
 
 export default router

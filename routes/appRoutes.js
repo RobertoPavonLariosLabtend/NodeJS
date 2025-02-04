@@ -5,6 +5,6 @@ const router = express.Router();
 router.get( '/', home )
 router.get( '/categories/:id', category )
 router.get( '/404', notFound )
-router.get( 'search/', search )
+router.post( '/search', search )
 
 export default router

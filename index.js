@@ -35,7 +35,7 @@ app.use( '/', userRoutes )
 app.use( '/auth', userRoutes )
 app.use( '/', propertiesRoutes )
 app.use( '/', appRoutes )
-app.use( '/api', apiRoutes )
+app.use( '/', apiRoutes )
 
 //habilitar pug
 app.set( 'view engine', 'pug' )
