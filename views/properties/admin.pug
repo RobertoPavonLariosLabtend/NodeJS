@@ -21,7 +21,7 @@ block content
                                 div(class="sm:w-1/4 md:w:1/6") 
                                     img(src=`uploads/${property.img}`, alt="")
                                 div(class="sm:w-2/4 md:w:3/6 lg:w-4/6") 
-                                    a(class="block text-2xl font-extrabold text-indigo-600 truncate" href="#")=property.title
+                                    a(class="block text-2xl font-extrabold text-indigo-600 truncate" href=`/property/${property.id}`)=property.title
 
                                     p( class="text-sm text-black font-bold" )=property.category.name
                                     p( class="text-sm text-black font-bold" )= property.price.name
@@ -30,4 +30,18 @@ block content
                                         input(type="submit" class=`px-2 py-2 md:py-1 text-xs leading-5 font-semibold
                                         rounded cursor-pointer ${property.isPublished ? 'bg-green-100 text-green-800' : 'g-red-100 text-red-800'} ` value=`${property.isPublished ? 'Publicado' : 'No Publicado'}`)
 
-                                    a(href="#" class="px-2 py-2 md:py-1 text-xs leading-5 font-semibold rounded cursor-pointerbg-indigo-300 text-indigo-800")  Editar
+                                    a(href=`edit/${property.id}` class="px-2 py-2 md:py-1 text-xs leading-5 font-semibold rounded cursor-pointer bg-indigo-300 text-indigo-800")  Editar
+                                    
+                                    form(action=`/delete/${property.id}` method="POST")
+                                        input(type="submit" href="#" class="px-2 py-2 md:py-1 text-xs leading-5 font-semibold rounded cursor-pointer bg-red-100 text-red-800 mt-1" value="Eliminar")  
+            div(class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6")
+                div 
+                    nav(class="relative z-0 inline-flex rounded-md shadow-md")
+                        - var n = 1
+                        while n <= pageNum
+                            a(href=`/my_properties?page=${n}` class=`${pageIndex == n ?
+                            'bg-indigo-50 border-indigo-500 text-indigo-600' : 'bg -white border-gray-300 text-gray-500 hover:bg-gray-50' } relative inline-flex items-center px-4 py-2 border text-sm font-medium`)= n
+                            - n++
+
+        else 
+            p.text-center No hay Propiedades
